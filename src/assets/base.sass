@@ -1,0 +1,120 @@
+$font_family: "Roboto" sans-serif
+$primary_1 : #3498db
+$primary_2 : #2980b9
+$danger_1: #e74c3c
+$danger_2: #c0392b
+$success_1: #2ecc71
+$success_2: #27ae60
+$text_color: #444
+$text_primary_color: #fff
+$gray_1: #f6f6f6
+$gray_2: #ddd
+$border: 1px solid $gray_2
+$border_radius: 4px
+
+body
+  font-family: $font_family
+  box-sizing: border-box
+  padding: 0
+  margin: 0
+  color : $text_color
+  min-height: 100vh
+  font-size: 14px
+  background: $gray_2
+
+h1 , h2, h3, h4
+  margin: 0
+
+ul
+  list-style: none
+  padding: 0
+
+img
+  max-width: 100%
+
+a
+  color: $text_color
+  text-decoration: none
+
+.btn
+  padding: 8px 15px
+  border: 0
+  border-radius: $border_radius
+  cursor: pointer
+  transition: background-color .3s
+
+.btn_primary
+  background-color: $primary_2
+  &:hover
+    background-color: $primary_1
+
+.btn_danger
+  background-color: $danger_2
+  &:hover
+    background-color: $danger_1
+
+.btn_success
+  background-color: $success_2
+  &:hover
+    background-color: $success_1
+//flex
+.d_flex
+  display: flex
+.flex_row
+  flex-direction: row
+.flex_column
+  flex-direction: column
+.justify_content_center
+  justify-content: center
+.align_items_center
+  align-items: center
+.flex_fill
+  flex: auto
+.flex_wrap
+  flex-wrap: wrap
+.w_100
+  width: 100%
+
+.p_10
+  padding: 10px
+.p_20
+  padding: 20px
+.px_20
+  padding-left: 20px
+  padding-right: 20px
+.p_30
+  padding: 30px
+.m_10
+  margin: 10px
+.m_20
+  margin: 20px
+.m_30
+  margin: 30px
+.mb_5
+  margin-bottom: 5px
+.mb_10
+  margin-bottom: 10px
+.mb_20
+  margin-bottom: 20px
+.mr_10
+  margin-right: 10px
+.mr_20
+  margin-right: 20px
+
+input, textarea, select
+  border: $border
+  border-radius: $border_radius
+  padding: 8px 15px
+label
+  font-weight: 500
+  color: gray
+  font-size: 14px
+.form_err
+  color: $danger_1
+  font-size: 14px
+  font-weight: 500
+.card
+  border: $border
+  border-radius: $border_radius
+  background-color: white
+  padding: 30px
