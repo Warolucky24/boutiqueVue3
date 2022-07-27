@@ -1,18 +1,22 @@
 <script setup lang="ts">
 import ShopProductList from "./ShopProductList.vue"
 import type {FilterInterface, ProductInterface} from "@/interfaces";
-import {defineEmits} from "vue";
+import {defineEmits, inject, onUpdated, ref} from "vue";
 import ShopFilters from "@/features/boutique/components/Shop/ShopFilters.vue";
+import {pageKey} from "@/shared/injectionKeys/pageKey";
 
-defineProps<{
+const props = defineProps<{
   products: ProductInterface[],
-  filters: FilterInterface
+  filters: FilterInterface,
+  moreResult: boolean
 }>()
-
+const scrollablediv = ref<HTMLDivElement |null>(null)
 const emit = defineEmits<{
   (e: "addProductToCart", productId: string):void
   (e: "updateFilter", updateFilter: FilterInterface):void
+  (e: 'incPage'):void
 }>()
+
 </script>
 
 <template>
@@ -26,7 +30,9 @@ const emit = defineEmits<{
     <ShopProductList
         class="flex_fill scrollable"
         :products="products"
+        :more-result="moreResult"
         @add-product-to-cart="emit('addProductToCart', $event)"
+        @inc-page="emit('incPage')"
     />
   </div>
 </template>

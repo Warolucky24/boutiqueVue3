@@ -1,27 +1,43 @@
 <script setup lang="ts">
 import Cart from "@/features/boutique/components/Cart/Cart.vue"
 import Shop from "@/features/boutique/components/Shop/Shop.vue"
-import {computed, reactive} from "vue"
+import {computed, reactive, watchEffect, watch, provide, toRef} from "vue"
 import type {ProductInterface, ProductCartInterface, FilterInterface, FilterUpdate} from "@/interfaces"
 import {DEFAULT_FILTERS} from "@/data/filters";
+import {fetchProduct} from "@/shared/service/product.service";
+import {pageKey} from "@/shared/injectionKeys/pageKey";
 
 const state = reactive<{
   products: ProductInterface[],
   cart: ProductCartInterface[],
-  filters: FilterInterface
+  filters: FilterInterface,
+  page: number,
+  isLoading: boolean,
+  moreResult: boolean,
 }>(
     {
       products: [],
       cart: [],
-      filters: { ...DEFAULT_FILTERS }
+      filters: { ...DEFAULT_FILTERS },
+      page: 1,
+      isLoading: true,
+      moreResult: true,
     }
 )
-const products = await (await fetch('https://restapi.fr/api/projectVue')).json()
-if(Array.isArray(products)){
-  state.products = products
-}else{
-  state.products = [products]
-}
+
+watchEffect(async () => {
+  state.isLoading = true
+  const products = await fetchProduct(state.filters, state.page)
+  if(Array.isArray(products)){
+    state.products = [... state.products, ...products]
+    if(products.length < 20){
+      state.moreResult = false
+    }
+  }else{
+    state.products = [...state.products, products]
+  }
+  state.isLoading = false
+})
 
 function addProductToCart(productId: string): void {
   const product = state.products.find((product) => product._id === productId);
@@ -71,6 +87,13 @@ function updateFilter(filterUpdate: FilterUpdate){
     state.filters = { ...DEFAULT_FILTERS }
   }
 }
+
+watch(state.filters, () => {
+  state.page = 1
+})
+
+provide(pageKey, toRef(state,"page"))
+
 </script>
 
 <template>
@@ -81,8 +104,10 @@ function updateFilter(filterUpdate: FilterUpdate){
     <Shop class="shop"
           :products="filteredProducts"
           :filters="state.filters"
+          :more-result="state.moreResult"
           @add-product-to-cart="addProductToCart"
           @update-filter="updateFilter"
+          @inc-page="state.page++"
     />
     <Cart class="cart"
           v-if="!cartEmpty"
