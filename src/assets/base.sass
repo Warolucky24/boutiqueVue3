@@ -1,4 +1,7 @@
+@use './mixin.sass'
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap')
+
 
 $font_family: "Roboto" sans-serif
 $primary_1 : #3498db
@@ -120,3 +123,20 @@ label
   border-radius: $border_radius
   background-color: white
   padding: 30px
+
+// util
+
+.hide_x
+  @include mixin.xs
+    display: none
+
+.show_x
+  color: white
+  cursor: pointer
+  font-size: 20px
+  @include mixin.sm
+    display: none
+
+.action_container
+  @include mixin.xs
+    justify-content: end
