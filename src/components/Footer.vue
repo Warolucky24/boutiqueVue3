@@ -12,6 +12,7 @@
 <style scoped lang="sass">
 footer
   background: #34495e
+  margin-top: 20px
   p
     color: white
 </style>

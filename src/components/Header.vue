@@ -7,43 +7,22 @@ const state = reactive<{
 }>({
   open: false
 })
-defineProps<{
-  page : Page
-}>()
-
-const emit = defineEmits<{
-  (e: "navigate", page:Page):void
-}>()
-
 </script>
 
+
 <template>
-
-
-
-
   <header class="d_flex flex_row align_items_center px_20">
-    <a @click="emit('navigate','Boutique')" class="mr_10 d_flex justify_content_center align_items_center">
+    <a href="#" class="mr_10 d_flex justify_content_center align_items_center">
       <img src="../assets/images/vue.png" alt="">
       <span class="logo">Dyma</span>
     </a>
     <div class="d_flex flex_row align_items_center flex_fill action_container">
       <ul class="flex_fill d_flex flex_row flex_fill hide_x">
         <li class="mr_10">
-          <a
-              @click="emit('navigate','Boutique')"
-              :class="{
-              active: page === 'Boutique'
-            }"
-          >Boutique</a>
+          <router-link to="/boutique">Boutique</router-link>
         </li>
         <li>
-          <a
-              @click="emit('navigate', 'Admin')"
-              :class="{
-              active: page === 'Admin'
-            }"
-          >Admin</a>
+          <router-link to="/admin">Admin</router-link>
         </li>
       </ul>
       <ul class="d_flex flex_row hide_x">
@@ -51,26 +30,17 @@ const emit = defineEmits<{
         <li><a href="#">Connexion</a></li>
       </ul>
 
+
       <div class="menu_xs_container">
         <i @click="state.open = !state.open" class="fa-solid fa-bars show_x"></i>
 
         <Transition>
           <ul @click="state.open = false" v-if="state.open" class="menu">
             <li class="mr_10">
-              <a
-                  @click="emit('navigate','Boutique')"
-                  :class="{
-                active: page === 'Boutique'
-              }"
-              >Boutique</a>
+              <router-link to="/boutique">Boutique</router-link>
             </li>
             <li>
-              <a
-                  @click="emit('navigate', 'Admin')"
-                  :class="{
-                active: page === 'Admin'
-              }"
-              >Admin</a>
+              <router-link to="/admin">Admin</router-link>
             </li>
             <li class="mr_10"><a href="#">Inscription</a></li>
             <li><a href="#">Connexion</a></li>
@@ -96,8 +66,7 @@ header
     .logo
       font-weight: 700
       font-size: 20px
-  a.active
-    text-decoration: underline
+
   .menu_xs_container
     position: relative
     .menu

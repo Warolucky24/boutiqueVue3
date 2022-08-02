@@ -33,7 +33,7 @@ watch(page, () => {
       />
     </div>
     <div class="d_flex flex_row align_items_center justify_content_center m_20">
-      <button class="btn btn_primary" @click="emit('incPage')" v-if="moreResult">Charger plus de produits !</button>
+      <button class="btn btn_primary" @click="emit('incPage')" v-if="moreResult && products.length">Charger plus de produits !</button>
     </div>
   </div>
 

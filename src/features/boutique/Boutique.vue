@@ -97,10 +97,7 @@ provide(pageKey, toRef(state,"page"))
 </script>
 
 <template>
-  <div class="boutique_container"
-       :class="{
-          'grid-empty' : cartEmpty
-          }">
+  <div class="boutique_container">
     <Shop class="shop"
           :products="filteredProducts"
           :filters="state.filters"
@@ -118,10 +115,4 @@ provide(pageKey, toRef(state,"page"))
 </template>
 
 <style lang="sass">
-.boutique_container
-  display: grid
-  grid-template-columns: 75% 25%
-.grid-empty
-  grid-template-columns: 100%
-
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="card">
-    <h3>Ajoutez un article</h3>
+    <h3 v-if="!product">Ajoutez un produit</h3>
+    <h3 v-else>Modifier un produit</h3>
     <form @submit="trySubmit">
       <div class="d_flex flex_column mb_20">
         <label class="mb_5">Titre*</label>
@@ -43,8 +44,25 @@ import {useField, useForm} from "vee-validate";
 import {z} from "zod";
 import {toFormValidator} from "@vee-validate/zod";
 import {onMounted, ref} from "vue";
+import {addProduct, editProduct, getProduct} from "@/shared/service/product.service";
+import type {ProductFormInterface, ProductInterface} from "@/interfaces";
+import {useRoute, useRouter} from "vue-router";
 
 const firstInput = ref<HTMLInputElement | null>(null)
+const product = ref<ProductInterface | null>(null)
+const route = useRoute()
+const router = useRouter()
+if(route.params.productId){
+  product.value = await getProduct(route.params.productId as string)
+}
+
+const initialValues = {
+  title: product.value ? product.value.title : '',
+  image: product.value ? product.value.image : '',
+  price: product.value ? product.value.price : 0,
+  description: product.value ? product.value.description : '',
+  category: product.value ? product.value.category : 'desktop'
+}
 
 onMounted(()=>{
   firstInput.value?.focus()
@@ -64,7 +82,10 @@ const validationSchema = toFormValidator(
           .min(10, {message:'la description dois faire au moins 10 caractères'}),
       category: z.string(required_error)
     }))
-const { handleSubmit, isSubmitting } = useForm({validationSchema})
+const { handleSubmit, isSubmitting } = useForm({
+  validationSchema,
+  initialValues
+})
 
 const title = useField('title')
 const image = useField('image')
@@ -74,15 +95,12 @@ const category = useField('category')
 
 const trySubmit = handleSubmit( async(formValues, {resetForm})=> {
   try {
-    await fetch('https://restapi.fr/api/projectVue',{
-      method: "POST",
-      body: JSON.stringify(formValues),
-      headers: {
-        "Content-type": "application/json"
-      }
-    })
-    resetForm()
-    firstInput.value?.focus()
+    if(!product.value){
+      addProduct(formValues)
+    }else{
+      await editProduct(product.value._id,formValues)
+    }
+    router.push('/admin/listproduct')
   }catch (e) {
     console.log(e)
   }

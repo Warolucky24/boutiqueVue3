@@ -1,4 +1,9 @@
-import type {FilterInterface, ProductInterface} from "@/interfaces";
+import type {FilterInterface, ProductFormInterface, ProductInterface} from "@/interfaces";
+import type {Ref} from "vue";
+import {ref} from "vue";
+
+const BASE_URL = 'https://restapi.fr/api/projectTest2'
+
 
 export async function fetchProduct(filter: FilterInterface, numberOfPage: number): Promise<ProductInterface[] | ProductInterface> {
     const query = new URLSearchParams();
@@ -12,11 +17,64 @@ export async function fetchProduct(filter: FilterInterface, numberOfPage: number
     }
     query.append('price', `$gte:${filter.priceRange[1]}`)
     query.append('price', `$gte:${filter.priceRange[0]}`)
-    const products = await (await fetch('https://restapi.fr/api/projectTest2?' + query)).json()
+    const products = await (await fetch(`${BASE_URL}?${query}`)).json()
     return products
 
 }
 
 
+export function useFetchProduct():{products : Ref<ProductInterface[] | null>, loading: Ref<boolean>, error: Ref<any>}{
+    const products = ref<ProductInterface[] | null>(null);
+    const loading = ref<boolean>(true);
+    const error = ref<any>('');
 
+    (async () => {
+        try {
+            products.value = await (await fetch(BASE_URL)).json();
+        }catch (e){
+            error.value = e;
+        }finally {
+            loading.value = false;
+        }
+    })()
 
+    return {
+        products,
+        loading,
+        error
+    }
+}
+
+export async function deleteProduct(productId: string): Promise<string> {
+    await fetch(`${BASE_URL}/${productId}`,{method: 'DELETE'});
+    return productId;
+}
+
+export async function addProduct(Product: ProductFormInterface): Promise<ProductFormInterface>{
+    const newProduct =  await (await fetch(`${BASE_URL}`,{
+        method: "POST",
+        body: JSON.stringify(Product),
+        headers: {
+            "Content-type": "application/json"
+        }
+    })).json()
+
+    return newProduct;
+}
+
+export async function getProduct(productId: string): Promise<ProductInterface>{
+    const product = await (await fetch(`${BASE_URL}/${productId}`)).json()
+    return product
+}
+
+export async function editProduct(productId: string, product: ProductFormInterface): Promise<ProductInterface>{
+    const updatedProduct = await (await fetch(`${BASE_URL}/${productId}`,{
+        method: 'PATCH',
+        body: JSON.stringify(product),
+        headers: {
+            'Content-type': 'application/json'
+        }
+    })).json()
+
+    return updatedProduct
+}
