@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import ShopProductList from "./ShopProductList.vue"
-import type {FilterInterface, ProductInterface} from "@/interfaces";
-import {defineEmits, inject, onUpdated, reactive, ref} from "vue";
+import type {FilterInterface, ProductInterface} from "@/shared/interfaces";
+import {defineEmits, reactive, ref} from "vue";
 import ShopFilters from "@/features/boutique/components/Shop/ShopFilters.vue";
-import {pageKey} from "@/shared/injectionKeys/pageKey";
 import Calc from "@/components/Calc.vue";
 
 const state = reactive<{
@@ -17,6 +16,7 @@ const state = reactive<{
 const props = defineProps<{
   products: ProductInterface[],
   filters: FilterInterface,
+  page: number,
   moreResult: boolean
 }>()
 const scrollablediv = ref<HTMLDivElement |null>(null)
@@ -53,6 +53,7 @@ const emit = defineEmits<{
           class="flex_fill scrollable"
           :products="products"
           :more-result="moreResult"
+          :page="props.page"
           @add-product-to-cart="emit('addProductToCart', $event)"
           @inc-page="emit('incPage')"
       />

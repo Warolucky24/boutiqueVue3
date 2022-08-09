@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import ShopProduct from "@/features/boutique/components/Shop/ShopProduct.vue";
-import type {ProductInterface} from "@/interfaces";
-import {defineEmits, inject, ref, watch} from "vue";
-import {pageKey} from "@/shared/injectionKeys/pageKey";
+import type {ProductInterface} from "@/shared/interfaces";
+import {defineEmits, ref, watch} from "vue";
 
-defineProps<{
+const props = defineProps<{
   products: ProductInterface,
+  page: number,
   moreResult: boolean
 }>()
 const emit = defineEmits<{
@@ -13,11 +13,11 @@ const emit = defineEmits<{
   (e: 'incPage'):void
 }>()
 
-const page = inject(pageKey)!;
+
 const scrollableDiv = ref<HTMLDivElement | null>(null)
 
-watch(page, () => {
-  if(page.value === 1){
+watch(() => props.page, () => {
+  if(props.page === 1){
     scrollableDiv.value?.scrollTo(0, 0)
   }
 })
@@ -28,7 +28,7 @@ watch(page, () => {
   <div ref="scrollableDiv" class="d_flex flex_column p_20">
     <div class="grid">
       <ShopProduct
-          v-for="product in products" :product="product" :key="product._id"
+          v-for="product in props.products" :product="product" :key="product._id"
           @add-product-to-cart="emit('addProductToCart', $event)"
       />
     </div>

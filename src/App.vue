@@ -2,9 +2,6 @@
 import TheHeader from "@/components/Header.vue"
 import TheFooter from "@/components/Footer.vue"
 
-//Générer 50 articles
-//seed_50_articles('projectTest2')
-
 </script>
 
 
@@ -31,9 +28,9 @@ import TheFooter from "@/components/Footer.vue"
 .app_container
   height: 100vh
   display: grid
-  grid-template-columns: 99% 1%
+  grid-template-columns: 100%
   grid-template-rows: 48px auto 48px
-  grid-template-areas: "header header" "boutique boutique" "footer footer"
+  grid-template-areas: "header" "boutique" "footer"
 
 .header
   grid-area: header

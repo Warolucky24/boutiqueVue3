@@ -1,11 +1,11 @@
-import type {FilterInterface, ProductFormInterface, ProductInterface} from "@/interfaces";
+import type {FilterInterface, ProductFormInterface, ProductInterface} from "@/shared/interfaces";
 import type {Ref} from "vue";
 import {ref} from "vue";
 
 const BASE_URL = 'https://restapi.fr/api/projectTest2'
 
 
-export async function fetchProduct(filter: FilterInterface, numberOfPage: number): Promise<ProductInterface[] | ProductInterface> {
+export async function fetchProductWithFilter(filter: FilterInterface, numberOfPage: number): Promise<ProductInterface[] | ProductInterface> {
     const query = new URLSearchParams();
 
     if (filter.category !== 'all') {
@@ -22,27 +22,9 @@ export async function fetchProduct(filter: FilterInterface, numberOfPage: number
 
 }
 
+export async function fetchProducts(): Promise<ProductInterface[]>{
+    return  await(await fetch(BASE_URL)).json()
 
-export function useFetchProduct():{products : Ref<ProductInterface[] | null>, loading: Ref<boolean>, error: Ref<any>}{
-    const products = ref<ProductInterface[] | null>(null);
-    const loading = ref<boolean>(true);
-    const error = ref<any>('');
-
-    (async () => {
-        try {
-            products.value = await (await fetch(BASE_URL)).json();
-        }catch (e){
-            error.value = e;
-        }finally {
-            loading.value = false;
-        }
-    })()
-
-    return {
-        products,
-        loading,
-        error
-    }
 }
 
 export async function deleteProduct(productId: string): Promise<string> {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type {FilterInterface, Category} from "@/interfaces";
-import {DEFAULT_FILTERS} from "../../../../data/filters";
+import type {FilterInterface, Category} from "@/shared/interfaces";
+import {DEFAULT_FILTERS} from "../../../../shared/data/filters";
 
 defineProps<{
   filters: FilterInterface,

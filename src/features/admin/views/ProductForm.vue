@@ -45,8 +45,9 @@ import {z} from "zod";
 import {toFormValidator} from "@vee-validate/zod";
 import {onMounted, ref} from "vue";
 import {addProduct, editProduct, getProduct} from "@/shared/service/product.service";
-import type {ProductFormInterface, ProductInterface} from "@/interfaces";
+import type {ProductFormInterface, ProductInterface} from "@/shared/interfaces";
 import {useRoute, useRouter} from "vue-router";
+import {useAdminProducts} from "@/features/admin/stores/adminProductStore";
 
 const firstInput = ref<HTMLInputElement | null>(null)
 const product = ref<ProductInterface | null>(null)
@@ -92,13 +93,14 @@ const image = useField('image')
 const price = useField('price')
 const description = useField('description')
 const category = useField('category')
+const adminProductStore = useAdminProducts()
 
 const trySubmit = handleSubmit( async(formValues, {resetForm})=> {
   try {
     if(!product.value){
-      addProduct(formValues)
+      adminProductStore.addProduct(formValues)
     }else{
-      await editProduct(product.value._id,formValues)
+      adminProductStore.editProduct(product.value._id,formValues)
     }
     router.push('/admin/listproduct')
   }catch (e) {

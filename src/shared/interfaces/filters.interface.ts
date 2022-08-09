@@ -1,4 +1,4 @@
-import type {Category} from "@/interfaces/type";
+import type {Category} from "@/shared/interfaces/type";
 
 export interface FilterInterface{
     search: string,
