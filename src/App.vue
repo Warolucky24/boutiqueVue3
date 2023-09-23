@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import TheHeader from "@/components/Header.vue"
 import TheFooter from "@/components/Footer.vue"
+import { seed_50_articles } from "@/shared/data/seed";
 
+//seed_50_articles("projectTest2")
 </script>
 
 

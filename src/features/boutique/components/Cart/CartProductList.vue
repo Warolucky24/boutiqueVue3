@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CartProduct from "@/features/boutique/components/Cart/CartProduct.vue"
-import type {ProductCartInterface} from "@/features/boutique/components/Cart/CartProductList.vue"
+import type {ProductCartInterface} from "@/shared/interfaces/productCart.interface"
 
 defineProps<{
   cart: ProductCartInterface[]
