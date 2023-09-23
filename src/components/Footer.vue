@@ -1,18 +1,7 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
-  <footer class="d_flex flex_row justify_content_center align_items_center">
-    <p>Copyright Dyma</p>
+  <footer class="bg-slate-500 text-end p-14 text-white">
+    <p class="font-bold text-xl">Mathieu B.</p>
+    <span class="italic text-sm">Réalisé en cours sur DYMA</span>
   </footer>
-
 </template>
 
-<style scoped lang="sass">
-footer
-  background: #34495e
-  margin-top: 20px
-  p
-    color: white
-</style>

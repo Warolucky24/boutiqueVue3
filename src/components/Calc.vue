@@ -1,28 +1,23 @@
 <script setup lang="ts">
-
-
 defineProps<{
-  open: boolean,
-  transparent?: boolean
-}>()
+  open: boolean;
+  transparent?: boolean;
+}>();
 const emit = defineEmits<{
-  (e: 'close'):void
-}>()
-
-
+  (e: "close"): void;
+}>();
 </script>
 
 <template>
-        <Teleport v-if="open" to="body">
-          <div
-              class="calc"
-              :class="{
-                transparent: transparent
-              }"
-              @click="emit('close')"
-          ></div>
-        </Teleport>
-
+  <Teleport v-if="open" to="body">
+    <div
+      class="calc"
+      :class="{
+        transparent: transparent,
+      }"
+      @click="emit('close')"
+    ></div>
+  </Teleport>
 </template>
 
 <style scoped lang="sass">
